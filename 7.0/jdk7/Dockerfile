@@ -3,7 +3,9 @@ FROM steadyserv/oracle-jdk:1.7
 RUN groupadd -r tomcat && useradd -mr -g tomcat tomcat
 
 ENV CATALINA_HOME /usr/local/tomcat
+ENV CATALINA_BASE /var/lib/tomcat
 ENV PATH $CATALINA_HOME/bin:$PATH
+
 WORKDIR $CATALINA_HOME
 
 # runtime dependencies for Tomcat Native Libraries
@@ -35,10 +37,13 @@ RUN set -x \
   && curl -fsL "https://repository.apache.org/content/repositories/releases/org/apache/tomcat/tomcat/$TOMCAT_VERSION/tomcat-$TOMCAT_VERSION.tar.gz" -o tomcat.tar.gz \
 	&& tar xf tomcat.tar.gz --strip-components=1 \
   && rm tomcat.tar.gz \
-	&& rm -rf bin/*.bat webapps/examples webapps/docs webapps/ROOT \
-  && rm -rf webapps/manager webapps/host-manager \
-  && mkdir conf/Catalina \
-  \
+	&& rm -rf webapps logs temp work bin/*.bat \
+	&& mkdir -p $CATALINA_BASE \
+	&& cd $CATALINA_BASE \
+	&& mv $CATALINA_HOME/conf . \
+	&& mkdir conf/Catalina bin lib logs webapps temp work \
+	&& cd $CATALINA_HOME \
+	\
 	&& nativeBuildDir="$(mktemp -d)" \
 	&& tar -xvf bin/tomcat-native.tar.gz -C "$nativeBuildDir" --strip-components=1 \
 	&& nativeBuildDeps="gcc libapr1-dev libssl-dev make" \
@@ -56,6 +61,8 @@ RUN set -x \
 	&& apt-get purge -y --auto-remove $nativeBuildDeps \
 	&& rm -rf "$nativeBuildDir" \
 	&& rm bin/tomcat-native.tar.gz
+
+WORKDIR $CATALINA_BASE
 
 # verify Tomcat Native is working properly
 RUN set -e \
@@ -80,8 +87,6 @@ RUN set -x \
 	&& gosu nobody true
 
 EXPOSE 8080
-
-VOLUME ["$CATALINA_HOME/logs", "$CATALINA_HOME/webapps"]
 
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
