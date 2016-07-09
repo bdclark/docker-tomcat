@@ -1,6 +1,8 @@
 sudo: required
+
 services:
 - docker
+
 env:
   global:
   - REPO=steadyserv/tomcat
@@ -16,4 +18,4 @@ before_script:
 - cd "$VERSION/$JDK"
 - export IMAGE="${REPO}:${VERSION}-${JDK}"
 
-script: "../.travis/build.sh"
+script: ../../.travis/build.sh
