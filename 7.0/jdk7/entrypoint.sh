@@ -1,6 +1,6 @@
 #!/usr/bin/dumb-init /bin/bash
 
-TOMCAT_CONFIG_KEY=${TOMCAT_CONFIG_KEY-service/tomcat}
+export TOMCAT_CONFIG_KEY=${TOMCAT_CONFIG_KEY-service/tomcat}
 
 render_template_dir() {
   find $1 -name "*.ctmpl" | while read file; do consul-template -once -template "$file:${file%.*}"; done
