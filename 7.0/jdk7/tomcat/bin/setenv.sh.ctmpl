@@ -17,7 +17,5 @@ CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.access.file=/etc/
 CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.password.file=/etc/steadyserv/jmxremote.password"{{- end }}
 {{ if printf "%s/debug/enabled" $config | key | parseBool -}}
 CATALINA_OPTS="${CATALINA_OPTS} -agentlib:jdwp=transport=dt_socket,address=9981,server=y,suspend=n"{{- end }}
-
-if [ -e "$CATALINA_BASE/bin/setenv_additional.sh" ]; then
-  source $CATALINA_BASE/bin/setenv_additional.sh
-fi
+{{ if printf "%s/catalina_opts" $config | key -}}
+CATALINA_OPTS="${CATALINA_OPTS} {{ printf "%s/catalina_opts" $config | key | replaceAll "\n" " " }}"{{- end }}
