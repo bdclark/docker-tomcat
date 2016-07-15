@@ -6,6 +6,10 @@ render_template_dir() {
   find $1 -name "*.ctmpl" | while read file; do consul-template -once -template "$file:${file%.*}"; done
 }
 
+if [ -n "$CONSUL_HOST" ]; then
+  CONSUL_HTTP_ADDR=${CONSUL_HOST}:${CONSUL_PORT-8500}
+fi
+
 if [ -n "$CONSUL_HTTP_ADDR" ]; then
   render_template_dir $CATALINA_BASE/bin
   render_template_dir $CATALINA_BASE/conf
@@ -13,7 +17,11 @@ if [ -n "$CONSUL_HTTP_ADDR" ]; then
   chmod 600 $CATALINA_BASE/conf/jmxremote.access $CATALINA_BASE/conf/jmxremote.password
   chown tomcat: $CATALINA_BASE/conf/jmxremote.access $CATALINA_BASE/conf/jmxremote.password
 else
-  >&2 echo "Skipping consul-template... CONSUL_HTTP_ADDR not provided"
+  >&2 echo "Skipping consul-template... CONSUL_HOST or CONSUL_HTTP_ADDR not provided"
+fi
+
+if [ -d "/entrypoint.d" ]; then
+  for f in /entrypoint.d/*; do source $f; done
 fi
 
 if [ "$1" = "catalina.sh" ]; then
