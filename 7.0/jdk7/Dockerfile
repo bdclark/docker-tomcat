@@ -103,9 +103,6 @@ RUN apt-get update \
   && unzip consul-template.zip -d /usr/local/bin \
   && rm consul-template.zip
 
-# add jolokia war file (custom with auth enabled) for monitoring
-ADD https://github.com/bdclark/jolokia-auth/releases/download/1.3.3-1/jolokia-auth-1.3.3-1.war webapps/jolokia.war
-
 COPY tomcat/ $CATALINA_BASE/
 
 COPY entrypoint.sh /entrypoint.sh
