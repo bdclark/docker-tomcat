@@ -1,9 +1,12 @@
 #!/usr/bin/dumb-init /bin/bash
 
-export TOMCAT_CONFIG_KEY=${TOMCAT_CONFIG_KEY-service/tomcat}
+export TOMCAT_PREFIX=${TOMCAT_PREFIX-service/tomcat}
 
 render_template_dir() {
-  find $1 -name "*.ctmpl" | while read file; do consul-template -once -template "$file:${file%.*}"; done
+  find $1 -name "*.ctmpl" | while read file; do
+    echo "Rendering $file to ${file%.*}..."
+    consul-template -once -template "$file:${file%.*}";
+  done
 }
 
 if [ -n "$CONSUL_HOST" ]; then
@@ -11,6 +14,7 @@ if [ -n "$CONSUL_HOST" ]; then
 fi
 
 if [ -n "$CONSUL_HTTP_ADDR" ]; then
+  render_template_dir /entrypoint.d
   render_template_dir $CATALINA_BASE/bin
   render_template_dir $CATALINA_BASE/conf
   render_template_dir $CATALINA_BASE/lib
@@ -21,7 +25,10 @@ else
 fi
 
 if [ -d "/entrypoint.d" ]; then
-  for f in /entrypoint.d/*; do source $f; done
+  for f in /entrypoint.d/*; do
+    echo "Sourcing $f..."
+    source $f
+  done
 fi
 
 if [ "$1" = "catalina.sh" ]; then
