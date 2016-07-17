@@ -109,6 +109,6 @@ COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
 # HTTP, JMX, DEBUG
-EXPOSE 8080 9980 9981
+EXPOSE 8080 9080 9180
 
 CMD ["catalina.sh", "run"]
