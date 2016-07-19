@@ -31,18 +31,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     openssl="$OPENSSL_VERSION" \
   && rm -rf /var/lib/apt/lists/*
 
+ENV TOMCAT_MAJOR 7
 ENV TOMCAT_VERSION 7.0.70
 
 RUN set -x \
-  && curl -fsL "https://repository.apache.org/content/repositories/releases/org/apache/tomcat/tomcat/$TOMCAT_VERSION/tomcat-$TOMCAT_VERSION.tar.gz" -o tomcat.tar.gz \
+  && curl -fsL "http://archive.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz" -o tomcat.tar.gz \
   && tar xf tomcat.tar.gz --strip-components=1 \
   && rm tomcat.tar.gz \
   && rm -rf webapps logs temp work bin/*.bat \
-  && mkdir -p $CATALINA_BASE \
-  && cd $CATALINA_BASE \
-  && mv $CATALINA_HOME/conf . \
-  && mkdir conf/Catalina bin lib logs webapps temp work \
-  && cd $CATALINA_HOME \
   \
   && nativeBuildDir="$(mktemp -d)" \
   && tar -xvf bin/tomcat-native.tar.gz -C "$nativeBuildDir" --strip-components=1 \
@@ -60,7 +56,12 @@ RUN set -x \
   ) \
   && apt-get purge -y --auto-remove $nativeBuildDeps \
   && rm -rf "$nativeBuildDir" \
-  && rm bin/tomcat-native.tar.gz
+  && rm bin/tomcat-native.tar.gz \
+  \
+  && mkdir -p $CATALINA_BASE \
+  && cd $CATALINA_BASE \
+  && mv $CATALINA_HOME/conf . \
+  && mkdir conf/Catalina bin lib logs webapps temp work
 
 WORKDIR $CATALINA_BASE
 
