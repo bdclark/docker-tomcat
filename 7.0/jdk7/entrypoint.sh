@@ -3,10 +3,12 @@
 export TOMCAT_PREFIX=${TOMCAT_PREFIX-service/tomcat}
 
 render_template_dir() {
-  find $1 -name "*.ctmpl" | while read file; do
-    echo "Rendering $file to ${file%.*}..."
-    consul-template -once -template "$file:${file%.*}";
-  done
+  if [ -d "$1" ]; then
+    find $1 -name "*.ctmpl" | while read file; do
+      >&2 echo "Rendering $file to ${file%.*}..."
+      consul-template -once -template "$file:${file%.*}";
+    done
+  fi
 }
 
 if [ "$1" = "catalina.sh" ]; then
@@ -27,7 +29,7 @@ if [ "$1" = "catalina.sh" ]; then
 
   if [ -d "/entrypoint.d" ]; then
     for f in /entrypoint.d/*; do
-      echo "Sourcing $f..."
+      >&2 echo "Sourcing $f..."
       source $f
     done
   fi
