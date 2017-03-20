@@ -28,7 +28,7 @@ TOMCAT_DEBUG_PORT     | Debug port (if enabled) | `9180`
 #### setenv.sh Settings
 
 Consul Key                    | Environment Variable  | Description
-------------------------------|-----------------------------------------------
+------------------------------|-----------------------|-----------------------
 `<prefix>/initial_heap_size`  | TOMCAT_HEAP_INITIAL   | sets JVM `-Xms`
 `<prefix>/max_heap_size`      | TOMCAT_HEAP_MAX       | sets JVM `-Xmx`
 `<prefix>/max_perm_size`      | TOMCAT_MAX_PERM_SIZE  | sets JVM `-XX:MaxPermSize`
