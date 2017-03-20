@@ -19,38 +19,38 @@ variables can be used, such as:
 
 #### Port Settings
 
-Environment Variable  | Description             | Default
-----------------------|-------------------------|--------
-TOMCAT_HTTP_PORT      | HTTP connector port     | `8080`
-TOMCAT_JMX_PORT       | JMX port (if enabled)   | `9080`
-TOMCAT_DEBUG_PORT     | Debug port (if enabled) | `9180`
+Environment Variable    | Description             | Default
+------------------------|-------------------------|--------
+`TOMCAT_HTTP_PORT`      | HTTP connector port     | `8080`
+`TOMCAT_JMX_PORT`       | JMX port (if enabled)   | `9080`
+`TOMCAT_DEBUG_PORT`     | Debug port (if enabled) | `9180`
 
 #### setenv.sh Settings
 
 Consul Key                    | Environment Variable  | Description
 ------------------------------|-----------------------|-----------------------
-`<prefix>/initial_heap_size`  | TOMCAT_HEAP_INITIAL   | sets JVM `-Xms`
-`<prefix>/max_heap_size`      | TOMCAT_HEAP_MAX       | sets JVM `-Xmx`
-`<prefix>/max_perm_size`      | TOMCAT_MAX_PERM_SIZE  | sets JVM `-XX:MaxPermSize`
-`<prefix>/debug/enabled`      | TOMCAT_DEBUG_ENABLED  | enable/disable debug (disabled by default)
-`<prefix>/jmx/enabled`        | TOMCAT_JMX_ENABLED    | enable/disable JMX (disabled by default)
-`<prefix>/catalina_opts`      | CATALINA_OPTS         | additional space or linefeed delimited java options passed as `CATALINA_OPTS` to tomcat.
+`<prefix>/initial_heap_size`  | `TOMCAT_HEAP_INITIAL`   | sets JVM `-Xms`
+`<prefix>/max_heap_size`      | `TOMCAT_HEAP_MAX`       | sets JVM `-Xmx`
+`<prefix>/max_perm_size`      | `TOMCAT_MAX_PERM_SIZE`  | sets JVM `-XX:MaxPermSize`
+`<prefix>/debug/enabled`      | `TOMCAT_DEBUG_ENABLED`  | enable/disable debug (disabled by default)
+`<prefix>/jmx/enabled`        | `TOMCAT_JMX_ENABLED`    | enable/disable JMX (disabled by default)
+`<prefix>/catalina_opts`      | `CATALINA_OPTS`         | additional space or linefeed delimited java options passed as `CATALINA_OPTS` to tomcat.
 
 #### JMX Security Settings
 The following setting are only relevant if JMX is enabled (see above). All settings
 are optional, and have no defaults unless shown.
 
-Consul Key                           | Environment Variable          | Description
--------------------------------------|-------------------------------|----------------------------------
-`<prefix>/jmx/authenticate`          | TOMCAT_JMX_AUTHENTICATE       | whether JMX auth is enabled (default: `true`)
-N/A                                  | TOMCAT_JMX_READONLY_USERNAME  | username for a JMX readonly user
-N/A                                  | TOMCAT_JMX_READONLY_PASSWORD  | password for a JMX readonly user
-N/A                                  | TOMCAT_JMX_READWRITE_USERNAME | username for a JMX readwrite user
-N/A                                  | TOMCAT_JMX_READWRITE_PASSWORD | password for a JMX readwrite user
-N/A                                  | TOMCAT_JMX_ACCESS_FILE        | path to JMX access file (default: `conf/jmxremote.access`)
-N/A                                  | TOMCAT_JMX_PASSWORD_FILE      | path to JMX password file (default: `conf/jmxremote.password`)
-`<prefix>/jmx/users/<user>/access`   | N/A                           | `readonly` or `readwrite` access for given JMX user
-`<prefix>/jmx/users/<user>/password` | N/A                           | password for given JMX user
+Consul Key                           | Environment Variable            | Description
+-------------------------------------|---------------------------------|----------------------------------
+`<prefix>/jmx/authenticate`          | `TOMCAT_JMX_AUTHENTICATE`       | whether JMX auth is enabled (default: `true`)
+N/A                                  | `TOMCAT_JMX_READONLY_USERNAME`  | username for a JMX readonly user
+N/A                                  | `TOMCAT_JMX_READONLY_PASSWORD`  | password for a JMX readonly user
+N/A                                  | `TOMCAT_JMX_READWRITE_USERNAME` | username for a JMX readwrite user
+N/A                                  | `TOMCAT_JMX_READWRITE_PASSWORD` | password for a JMX readwrite user
+N/A                                  | `TOMCAT_JMX_ACCESS_FILE`        | path to JMX access file (default: `conf/jmxremote.access`)
+N/A                                  | `TOMCAT_JMX_PASSWORD_FILE`      | path to JMX password file (default: `conf/jmxremote.password`)
+`<prefix>/jmx/users/<user>/access`   | N/A                             | `readonly` or `readwrite` access for given JMX user
+`<prefix>/jmx/users/<user>/password` | N/A                             | password for given JMX user
 
 #### tomcat-users.xml Settings
 The following Consul keys are optional and used to configure tomcat-users.xml.
