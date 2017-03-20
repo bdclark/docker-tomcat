@@ -1,0 +1,11 @@
+# jmxremote.access.file
+
+{{- with printf "%s/jmx/users/" (env "TOMCAT_PREFIX") | tree | explode }}{{range $key, $vals := .}}
+{{- if and $vals.access $vals.password }}
+{{ $key }} {{ $vals.access }}{{ end }}{{ end }}{{ end }}
+
+{{- if and (env "TOMCAT_JMX_READWRITE_USERNAME") (env "TOMCAT_JMX_READWRITE_PASSWORD") }}
+{{ env "TOMCAT_JMX_READWRITE_USERNAME" }} readwrite{{ end }}
+
+{{- if and (env "TOMCAT_JMX_READONLY_USERNAME") (env "TOMCAT_JMX_READONLY_PASSWORD") }}
+{{ env "TOMCAT_JMX_READONLY_USERNAME" }} readonly{{ end }}

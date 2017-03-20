@@ -1,0 +1,28 @@
+# setenv.d/10-consul.sh.ctmpl
+{{- $config := env "TOMCAT_PREFIX" }}
+
+{{- $initial_heap_size := or (env "TOMCAT_HEAP_INITIAL") (keyOrDefault (printf "%s/initial_heap_size" $config) "") }}{{ if $initial_heap_size }}
+CATALINA_OPTS="${CATALINA_OPTS} -Xms{{ $initial_heap_size }}"{{ end }}
+
+{{- $max_heap_size := or (env "TOMCAT_HEAP_MAX") (keyOrDefault (printf "%s/max_heap_size" $config) "") }}{{ if $max_heap_size }}
+CATALINA_OPTS="${CATALINA_OPTS} -XmX{{ $max_heap_size }}"{{ end }}
+
+{{- $max_perm_size := or (env "TOMCAT_MAX_PERM_SIZE") (keyOrDefault (printf "%s/max_perm_size" $config) "") }}{{ if $max_perm_size }}
+CATALINA_OPTS="${CATALINA_OPTS} -XX:MaxPermSize={{ $max_perm_size }}"{{ end }}
+
+{{- if or (env "TOMCAT_JMX_ENABLED" | parseBool) (keyOrDefault (printf "%s/jmx/enabled" $config) "" | parseBool) }}
+CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote"
+CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.ssl=false"
+CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.port={{ env "TOMCAT_JMX_PORT" }}"
+{{- if or (env "TOMCAT_JMX_AUTHENTICATE" | parseBool) (keyOrDefault (printf "%s/jmx/authenticate" $config) "" | parseBool) }}
+CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.authenticate=true"
+CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.access.file={{ env "TOMCAT_JMX_ACCESS_FILE" }}"
+CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.password.file={{ env "TOMCAT_JMX_PASSWORD_FILE" }}"
+{{- else }}
+CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.authenticate=false"{{ end }}{{ end }}
+
+{{- if or (env "TOMCAT_DEBUG_ENABLED" | parseBool) (keyOrDefault (printf "%s/debug/enabled" $config) "" | parseBool) }}
+CATALINA_OPTS="${CATALINA_OPTS} -agentlib:jdwp=transport=dt_socket,address={{ env "TOMCAT_DEBUG_PORT" }},server=y,suspend=n"{{ end }}
+
+{{- if printf "%s/catalina_opts" $config | keyExists }}
+CATALINA_OPTS="${CATALINA_OPTS} {{ printf "%s/catalina_opts" $config | key | replaceAll "\n" " " }}"{{ end }}
