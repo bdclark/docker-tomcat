@@ -1,6 +1,14 @@
 # bdclark/tomcat-consul Docker Images
 
-These images provide [Apache Tomcat][1].
+These images provide [Apache Tomcat][1] dynamically configured via
+[Consul-Template][2]. The following tags are available:
+
+- `7` - Tomcat 7.0.56 without Java
+- `7-alpine` - Tomcat  7.0.56 without Java (Alpine Linux)
+- `7-jre7` - Tomcat  7.0.56 with OpenJDK 7 JRE
+- `7-jre7-alpine` - Tomcat  7.0.56 with OpenJDK 7 JRE (Alpine Linux)
+- `7-jre7-oracle` - Tomcat  7.0.56 with Oracle 7 JRE
+- `7-jre7-oracle-alpine` - Tomcat  7.0.56 with Oracle 7 JRE (Alpine Linux)
 
 ## Supported Consul Keys and Environment Variables
 Use the `TOMCAT_PREFIX` environment variable to set the key prefix where the
@@ -96,3 +104,4 @@ immediately before starting tomcat. This can be used to execute basic scripts
 added by derived images that might need to execute at runtime.
 
 [1]: http://tomcat.apache.org/
+[2]: https://github.com/hashicorp/consul-template
