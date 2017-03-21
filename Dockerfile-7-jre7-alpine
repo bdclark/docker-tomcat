@@ -30,12 +30,6 @@ RUN set -x \
   && rm -rf webapps/* logs/* \
   && mv conf/server.xml conf/server.xml.original \
   && mv conf/tomcat-users.xml conf/tomcat-users.xml.original
-  # && chown -R root:tomcat bin lib conf webapps \
-  # && chown -R tomcat:tomcat temp work logs \
-  # && chmod 750 lib conf webapps \
-  # && chmod 640 conf/* \
-  # && mkdir -p conf/Catalina \
-  # && chown tomcat:tomcat conf/Catalina
 
 ENV TOMCAT_PREFIX="service/tomcat" \
     TOMCAT_HTTP_PORT=8080 \
@@ -47,7 +41,7 @@ ENV TOMCAT_PREFIX="service/tomcat" \
 
 COPY tomcat $CATALINA_HOME/
 
-COPY entrypoint.sh /entrypoint.sh
+COPY docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
 EXPOSE $TOMCAT_HTTP_PORT $TOMCAT_JMX_PORT $TOMCAT_DEBUG_PORT

@@ -1,6 +1,6 @@
-# steadyserv/tomcat-consul Docker Images
+# bdclark/tomcat-consul Docker Images
 
-These images provide Apache Tomcat using the Oracle JDK, and configured by Consul.
+These images provide [Apache Tomcat][1].
 
 ## Supported Consul Keys and Environment Variables
 Use the `TOMCAT_PREFIX` environment variable to set the key prefix where the
@@ -25,7 +25,7 @@ Environment Variable    | Description             | Default
 `TOMCAT_JMX_PORT`       | JMX port (if enabled)   | `9080`
 `TOMCAT_DEBUG_PORT`     | Debug port (if enabled) | `9180`
 
-#### setenv.sh Settings
+#### `setenv.sh` Settings
 
 Consul Key                    | Environment Variable  | Description
 ------------------------------|-----------------------|-----------------------
@@ -52,7 +52,7 @@ N/A                                  | `TOMCAT_JMX_PASSWORD_FILE`      | path to
 `<prefix>/jmx/users/<user>/access`   | N/A                             | `readonly` or `readwrite` access for given JMX user
 `<prefix>/jmx/users/<user>/password` | N/A                             | password for given JMX user
 
-#### tomcat-users.xml Settings
+#### `tomcat-users.xml` Settings
 The following Consul keys are optional and used to configure tomcat-users.xml.
 
 Consul Key                        | Description
@@ -62,7 +62,7 @@ Consul Key                        | Description
 `<prefix>/users/<user>/password`  | password for tomcat user
 `<prefix>/users/<user>/roles`     | comma-delimited list of roles for tomcat user
 
-#### server.xml Settings
+#### `server.xml` Settings
 
 Consul Key                                       | Description
 -------------------------------------------------|----------------------------
@@ -95,6 +95,4 @@ The image's entrypoint script is configured to source any files contained in `/e
 immediately before starting tomcat. This can be used to execute basic scripts
 added by derived images that might need to execute at runtime.
 
-For example, a derived image could add a war file, and have an entrypoint script
-explode the war and symlink a rendered property file somewhere within its
-directory structure.
+[1]: http://tomcat.apache.org/

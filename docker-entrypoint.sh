@@ -63,7 +63,16 @@ if [ "$1" = "catalina.sh" ]; then
   chown -R tomcat:tomcat conf/jmxremote.* conf/Catalina
   chmod 400 conf/jmxremote.*
 
-  exec su-exec tomcat "$@"
+  if command -v su-exec >/dev/null 2>&1; then
+    exec su-exec tomcat "$@"
+  elif command -v gosu >/dev/null 2>&1; then
+    exec gosu tomcat "$@"
+  elif command -v chroot >/dev/null 2>&1; then
+    exec chroot --userspec=tomcat / "$@"
+  else
+    >&2 echo "Unable to exec as tomcat user"
+    exit 1
+  fi
 fi
 
 exec "$@"
