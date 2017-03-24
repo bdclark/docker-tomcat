@@ -1,4 +1,5 @@
 #!/usr/bin/dumb-init /bin/sh
+set -e
 
 export TOMCAT_PREFIX=${TOMCAT_PREFIX-service/tomcat}
 export TOMCAT_HTTP_PORT=${TOMCAT_HTTP_PORT-8080}
