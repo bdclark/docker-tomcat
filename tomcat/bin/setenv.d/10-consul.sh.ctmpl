@@ -5,7 +5,7 @@
 CATALINA_OPTS="${CATALINA_OPTS} -Xms{{ $initial_heap_size }}"{{ end }}
 
 {{- $max_heap_size := or (env "TOMCAT_HEAP_MAX") (keyOrDefault (printf "%s/max_heap_size" $config) "") }}{{ if $max_heap_size }}
-CATALINA_OPTS="${CATALINA_OPTS} -XmX{{ $max_heap_size }}"{{ end }}
+CATALINA_OPTS="${CATALINA_OPTS} -Xmx{{ $max_heap_size }}"{{ end }}
 
 {{- $max_perm_size := or (env "TOMCAT_MAX_PERM_SIZE") (keyOrDefault (printf "%s/max_perm_size" $config) "") }}{{ if $max_perm_size }}
 CATALINA_OPTS="${CATALINA_OPTS} -XX:MaxPermSize={{ $max_perm_size }}"{{ end }}
