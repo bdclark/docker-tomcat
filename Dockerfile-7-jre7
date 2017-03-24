@@ -35,6 +35,7 @@ RUN set -x \
 RUN set -x \
   && useradd --uid 1000 tomcat \
   && rm -rf webapps/* logs/* \
+  && mkdir -p conf/Catalina \
   && mv conf/server.xml conf/server.xml.original \
   && mv conf/tomcat-users.xml conf/tomcat-users.xml.original
 

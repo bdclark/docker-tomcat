@@ -28,6 +28,7 @@ RUN set -x \
   && adduser -D -u 1000 tomcat \
   && apk add --no-cache su-exec \
   && rm -rf webapps/* logs/* \
+  && mkdir -p conf/Catalina \
   && mv conf/server.xml conf/server.xml.original \
   && mv conf/tomcat-users.xml conf/tomcat-users.xml.original
 

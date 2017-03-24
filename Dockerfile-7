@@ -49,6 +49,7 @@ RUN set -x \
   && gpg --batch --verify ${tomcat_archive}.asc ${tomcat_archive} \
   && tar -xf ${tomcat_archive} --strip-components=1 \
   && rm -rf webapps/* logs/* \
+  && mkdir -p conf/Catalina \
   && mv conf/server.xml conf/server.xml.original \
   && mv conf/tomcat-users.xml conf/tomcat-users.xml.original \
   && rm -rf ${tomcat_archive} ${tomcat_archive}.asc KEYS /root/.gnupg
