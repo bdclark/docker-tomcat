@@ -21,8 +21,5 @@ CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.password.file={{ 
 {{- else }}
 CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.authenticate=false"{{ end }}{{ end }}
 
-{{- if or (env "TOMCAT_DEBUG_ENABLED" | parseBool) (keyOrDefault (printf "%s/debug/enabled" $config) "" | parseBool) }}
-CATALINA_OPTS="${CATALINA_OPTS} -agentlib:jdwp=transport=dt_socket,address={{ env "TOMCAT_DEBUG_PORT" }},server=y,suspend=n"{{ end }}
-
 {{- if printf "%s/catalina_opts" $config | keyExists }}
 CATALINA_OPTS="${CATALINA_OPTS} {{ printf "%s/catalina_opts" $config | key | replaceAll "\n" " " }}"{{ end }}

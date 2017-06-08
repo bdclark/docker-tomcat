@@ -27,11 +27,11 @@ variables can be used, such as:
 
 #### Port Settings
 
-Environment Variable    | Description             | Default
-------------------------|-------------------------|--------
-`TOMCAT_HTTP_PORT`      | HTTP connector port     | `8080`
-`TOMCAT_JMX_PORT`       | JMX port (if enabled)   | `9080`
-`TOMCAT_DEBUG_PORT`     | Debug port (if enabled) | `9180`
+Environment Variable    | Description                                       | Default
+------------------------|---------------------------------------------------|--------
+`TOMCAT_HTTP_PORT`      | HTTP connector port                               | `8080`
+`TOMCAT_JMX_PORT`       | JMX port (if enabled)                             | `9080`
+`JPDA_ADDRESS`          | Debug port (use `catalina.sh jpda run` to enable) | `9180`
 
 #### `setenv.sh` Settings
 
@@ -40,7 +40,6 @@ Consul Key                    | Environment Variable  | Description
 `<prefix>/initial_heap_size`  | `TOMCAT_HEAP_INITIAL`   | sets JVM `-Xms`
 `<prefix>/max_heap_size`      | `TOMCAT_HEAP_MAX`       | sets JVM `-Xmx`
 `<prefix>/max_perm_size`      | `TOMCAT_MAX_PERM_SIZE`  | sets JVM `-XX:MaxPermSize`
-`<prefix>/debug/enabled`      | `TOMCAT_DEBUG_ENABLED`  | enable/disable debug (disabled by default)
 `<prefix>/jmx/enabled`        | `TOMCAT_JMX_ENABLED`    | enable/disable JMX (disabled by default)
 `<prefix>/catalina_opts`      | `CATALINA_OPTS`         | additional space or linefeed delimited java options passed as `CATALINA_OPTS` to tomcat.
 
